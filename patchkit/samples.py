@@ -13,7 +13,10 @@ def run(name):
     if name == "context":
         patch = "@@ -1,2 +1,2 @@\n a\n z\n"
         out = core.apply(["a", "b"], patch, core.Counter())
-        _line({"status": out["status"], "lines": out["lines"]})
+        obj = {"status": out["status"]}
+        if out["status"] == "ok":
+            obj["lines"] = out["lines"]
+        _line(obj)
         return 0
     if name == "offset":
         patch = "@@ -1,1 +1,2 @@\n+x\n@@ -3,1 +4,1 @@\n-c\n+C\n"
